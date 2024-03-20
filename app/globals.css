@@ -26,8 +26,16 @@ body {
     rgb(var(--background-start-rgb));
 }
 
+main {
+  padding: 16px;
+}
+
 @layer utilities {
   .text-balance {
     text-wrap: balance;
   }
+}
+
+.my-gradient {
+  background: linear-gradient(to bottom, rgba(65, 222, 236, 1) 0%,rgba(0, 252, 205, 1) 100%);
 }
