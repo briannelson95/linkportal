@@ -6,6 +6,7 @@ import LinkIcon from './icons/LinkIcon'
 import { usePathname } from 'next/navigation'
 import toast from 'react-hot-toast'
 import XIcon from './icons/XIcon'
+import Link from 'next/link'
 
 export default function Navbar() {
     const pathname = usePathname();
@@ -28,20 +29,24 @@ export default function Navbar() {
         <>
              <div 
                 className={
-                        `${open ? 'visible' : 'invisible'} absolute right-4 top-16 bg-gray-500 rounded-md transition-all duration-500`
+                        `${open ? 'visible' : 'invisible'} absolute w-48 right-4 top-16 bg-gray-700 rounded-md z-20`
                     }
                 >
-                <div className='relative w-full h-4'>
-                    <button className='absolute left-2 top-2' onClick={handleOpen}><XIcon /></button>
-                </div>
-                <div className='p-2'>
-                    Popout
+                <div className='px-4 py-2'>
+                    <ul className='space-y-2'>
+                        <li>
+                            <Link href={'/'}>About</Link>
+                        </li>
+                        <li>
+                            <Link href={'/@briannelson'}>Login/Sign Up</Link>
+                        </li>
+                    </ul>
                 </div>
             </div>
             <nav className='flex justify-end gap-2 pt-4 px-4'>
                 {pathname.includes('@') && (
                     <button onClick={handleCopyLink}>
-                        <NavButton>
+                        <NavButton color>
                             <LinkIcon />
                         </NavButton>
                     </button>
