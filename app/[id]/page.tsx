@@ -1,3 +1,4 @@
+import AddLink from '@/components/AddLink'
 import LinkButton from '@/components/LinkButton'
 import UserInfo from '@/components/UserInfo'
 import React from 'react'
@@ -30,8 +31,10 @@ const exampleUser: User = {
 }
 
 export default async function UserPage() {
+    const isMyUser = true;
+
     return (
-        <main className='space-y-2 max-w-sm mx-auto'>
+        <main className='space-y-2'>
             <UserInfo 
                 name={exampleUser.info.name}
                 image={exampleUser.info.image}
@@ -43,6 +46,9 @@ export default async function UserPage() {
                     <LinkButton key={index} {...link} />
                 ))}
             </div>
+            {isMyUser && (
+               <AddLink />
+            )}
         </main>
     )
 }
