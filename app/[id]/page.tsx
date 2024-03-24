@@ -1,6 +1,7 @@
 import AddLink from '@/components/AddLink'
 import LinkButton from '@/components/LinkButton'
 import UserInfo from '@/components/UserInfo'
+import { supabase } from '@/lib/supabaseClient'
 import React from 'react'
 
 const exampleUser: User = {
@@ -30,19 +31,35 @@ const exampleUser: User = {
     ]
 }
 
-export default async function UserPage() {
+export async function generateStaticParams() {
+    const { data: profiles }: any = await supabase.from('profiles').select('username');
+    // console.log(profiles)
+    return profiles?.map(({ username }:any) => {
+        username
+    })
+};
+
+export default async function UserPage({ params: { id } }: { params: { id: string } }) {
+    const { data: profile }: any = await supabase
+        .from('profiles')
+        .select('*, user_links(id, title, link, order)')
+        .eq('username', decodeURIComponent(id));
+    
+    
+    const userData = profile[0]
+
     const isMyUser = true;
 
     return (
         <main className='space-y-2'>
             <UserInfo 
-                name={exampleUser.info.name}
+                name={userData.name}
                 image={exampleUser.info.image}
-                username={exampleUser.info.username}
-                bio={exampleUser.info.bio}
+                username={userData.username}
+                bio={userData.bio}
             />
             <div className='space-y-2'>
-                {exampleUser.links.length && exampleUser.links.map((link: UserLinks, index: number) => (
+                {userData.user_links.length && userData.user_links.map((link: UserLinks, index: number) => (
                     <LinkButton key={index} {...link} />
                 ))}
             </div>
