@@ -32,6 +32,13 @@ const exampleUser: User = {
     ]
 }
 
+type UserLink = {
+    id: number;
+    link: string;
+    order: number;
+    title: string;
+}
+
 export async function generateStaticParams() {
     const { data: profiles }: any = await supabase.from('profiles').select('username');
     // console.log(profiles)
@@ -44,9 +51,8 @@ export default async function UserPage({ params: { id } }: { params: { id: strin
     const { data: profile }: any = await supabase
         .from('profiles')
         .select('*, user_links(id, title, link, order)')
-        .eq('username', decodeURIComponent(id));
-    
-    
+        .eq('username', decodeURIComponent(id))
+
     const userData = profile[0]
 
     const isMyUser = true;
@@ -63,12 +69,14 @@ export default async function UserPage({ params: { id } }: { params: { id: strin
             <div className="relative flex place-items-center before:absolute before:h-[300px] before:w-full sm:before:w-[480px] before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-full sm:after:w-[240px] after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40 before:lg:h-[360px] z-[-1]" />
 
             <div className='space-y-2'>
-                {userData.user_links.length && userData.user_links.map((link: UserLinks, index: number) => (
+                {userData.user_links.length && userData.user_links
+                    .sort((a: UserLink, b: UserLink) => a.order - b.order)
+                    .map((link: UserLinks, index: number) => (
                     <LinkButton key={index} {...link} />
                 ))}
             </div>
             {isMyUser && (
-               <Settings />
+                <AddLink />
             )}
         </main>
     )

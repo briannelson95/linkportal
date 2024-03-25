@@ -2,6 +2,8 @@
 import React, { useState } from 'react'
 import PlusIcon from './icons/PlusIcon'
 import XIcon from './icons/XIcon';
+import { supabase } from '@/lib/supabaseClient';
+import toast from 'react-hot-toast';
 
 export default function AddLink() {
     const [open, setOpen] = useState<boolean>(false);
@@ -10,6 +12,24 @@ export default function AddLink() {
 
     const handleOpen = () => {
         setOpen(!open)
+    }
+
+    const handleSubmit = async () => {
+        const { error } = await supabase
+            .from('user_links')
+            .insert({
+                title,
+                link,
+                profile_id: '3e4d5e44-cb65-4f65-b883-c405b2b72da1'
+            })
+
+        if (!error) {
+            toast.success('Link added');
+
+            setLink('');
+            setTitle('');
+            setOpen(false);
+        }
     }
 
     return (
@@ -49,6 +69,7 @@ export default function AddLink() {
                             <button
                                 type='submit'
                                 className='my-gradient px-2 py-1 rounded text-black text-sm font-bold float-end border border-gray-300'
+                                onClick={handleSubmit}
                             >
                                 Save
                             </button>
