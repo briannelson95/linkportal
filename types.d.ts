@@ -3,6 +3,7 @@ type UserInfoProps = {
     image: string;
     username: string;
     bio: string;
+    isMyUser?: boolean
 }
 
 type User = {

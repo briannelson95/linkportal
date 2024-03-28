@@ -4,11 +4,14 @@ import PlusIcon from './icons/PlusIcon'
 import XIcon from './icons/XIcon';
 import { supabase } from '@/lib/supabaseClient';
 import toast from 'react-hot-toast';
+import { useRouter } from 'next/navigation';
 
 export default function AddLink() {
     const [open, setOpen] = useState<boolean>(false);
     const [title, setTitle] = useState<string>('');
     const [link, setLink] = useState<string>('');
+
+    const router = useRouter()
 
     const handleOpen = () => {
         setOpen(!open)
@@ -20,7 +23,7 @@ export default function AddLink() {
             .insert({
                 title,
                 link,
-                profile_id: '3e4d5e44-cb65-4f65-b883-c405b2b72da1'
+                profile_id: '77d0cfce-26b8-482e-9a8f-a85a7cd310ac'
             })
 
         if (!error) {
@@ -29,6 +32,8 @@ export default function AddLink() {
             setLink('');
             setTitle('');
             setOpen(false);
+
+            router.refresh()
         }
     }
 

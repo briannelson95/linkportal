@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import { Toaster } from "react-hot-toast";
+import { UserContextProvider } from "@/context/UserContext";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -18,14 +19,16 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>
-        <Toaster 
-          position="bottom-center"
-          reverseOrder={false}
-        />
-        <Navbar />
-        {children}
-      </body>
+      <UserContextProvider>
+        <body className={inter.className}>
+          <Toaster 
+            position="bottom-center"
+            reverseOrder={false}
+          />
+          <Navbar />
+          {children}
+        </body>
+      </UserContextProvider>
     </html>
   );
 }
