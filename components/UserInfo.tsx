@@ -7,9 +7,9 @@ import { supabase } from '@/lib/supabaseClient';
 import { useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
 
-export default function UserInfo(props: UserInfoProps) {
-    const userId = '77d0cfce-26b8-482e-9a8f-a85a7cd310ac';
+const userId = process.env.TEST_USER_ID;
 
+export default function UserInfo(props: UserInfoProps) {
     const [edit, setEdit] = useState<boolean>(false);
     const [bio, setBio] = useState<string>(props.bio);
 
